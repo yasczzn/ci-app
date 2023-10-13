@@ -2,11 +2,15 @@
 
 namespace Config;
 
+// use App\Controllers\Coba;
+
 use CodeIgniter\Router\RouteCollection;
 
 /**
  * @var RouteCollection $routes
  */
+// $routes->get('coba', [Coba::class, 'index']);
+// $routes->get('(:segment)', [Coba::class, 'view']);
 $routes->get('/', 'Pages::index');
 
 $routes->get('/user/create', 'User::create');

@@ -9,6 +9,11 @@ class UserInfoModel extends Model
     protected $table = 'user_data';
     protected $allowedFields = ['id', 'name', 'email', 'image'];
 
+    public function search($keyword)
+    {
+        return $this->table('user_data')->like('name', $keyword)->orLike('email', $keyword);
+    }
+
     public function getUser($id = false)
     {
         if($id == false) {

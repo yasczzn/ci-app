@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\UserInfoModel;
-use CodeIgniter\CodeIgniter;
 
 class User extends BaseController
 {
@@ -16,9 +15,22 @@ class User extends BaseController
 
     public function index()
     {
+
+        $currentPage = $this->request->getVar('page_user_data') ? $this->request->getVar('page_user_data') :
+        1;
+
+        $keyword = $this->request->getVar('keyword');
+        if($keyword) {
+            $userdata = $this->userInfoModel->search($keyword);
+        }  else {
+            $userdata = $this->userInfoModel;
+        }
+
         $data = [
             'title' => 'User Page',
-            'user' => $this->userInfoModel->getUser()            
+            'user' => $userdata->paginate(4, 'user_data'),
+            'pager' => $this->userInfoModel->pager,
+            'currentPage' => $currentPage           
         ];
 
         return view('user/index', $data);

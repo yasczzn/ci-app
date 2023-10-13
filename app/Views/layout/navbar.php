@@ -21,6 +21,9 @@
         <li class="nav-item">
           <a class="nav-link" href="/user">User Info</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/orang">Orang</a>
+        </li>
       </ul>
     </div>
   </div>
