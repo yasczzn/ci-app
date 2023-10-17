@@ -26,6 +26,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Image</th>
+                    <th scope="col">File</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,6 +37,7 @@
                         <td><?= $u['name']; ?></td>
                         <td><?= $u['email']; ?></td>
                         <td><img src="/img/<?= $u['image']; ?>" alt="user image" class="image"></td>
+                        <td><?= $u['file']; ?></td>
                         <td>
                             <a href="/user/<?= $u['id']; ?>" class='btn btn-success'>Details</a>
                         </td>

@@ -10,8 +10,12 @@
                     <input type="text" class="form-control" placeholder="Enter Keyword..." name="keyword">
                     <button class="btn btn-outline-secondary" type="submit" name="submit">Search</button>
                 </div>
+            </form>
+            <div class="col-sm-4">
+                <a href="orang/printpdf" target="_blank" class="btn btn-outline-primary" name="orang">Print All Data</a>
             </div>
-        </form>
+            <br>
+        </div>
     </div>
     <div class="table-wrapper">  
         <table class="table table-bordered">

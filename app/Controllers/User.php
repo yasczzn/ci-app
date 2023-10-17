@@ -72,6 +72,13 @@ class User extends BaseController
                     'is_image' => 'Please choose an image',
                     'mime_in' => 'Please choose an image'
                 ]
+            ],
+            'file' => [
+                'rules' => 'max_size[file,5000]|ext_in[file,txt,docx,pptx,xlsx,pdf]',
+                'errors' => [
+                    'max_size' => 'File size too big',
+                    'mime_in' => 'Please choose a file'
+                ]
             ]
         ])) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
@@ -87,11 +94,23 @@ class User extends BaseController
             $imageFile->move('img', $imageName);
         }
 
+        //get file 
+        $docFile = $this->request->getFile('file');
+        //if picture not uploaded
+        if($docFile->getError() == 4) {
+            $docName = '';
+        } else {
+            $docName = $docFile->getRandomName();
+            $docFile->move('file', $docName);
+        }
+
+
         $this->userInfoModel->save([
             'id' => $this->request->getVar('id'),
             'name' => $this->request->getVar('name'),
             'email' => $this->request->getVar('email'),
-            'image' => $imageName
+            'image' => $imageName,
+            'file' => $docName
         ]);
 
         session()->setFlashdata('notification', 'Data successfully added!');
@@ -105,7 +124,13 @@ class User extends BaseController
         $user = $this->userInfoModel->find($id);
         if($user['image'] != 'default.jpg') {
             unlink('img/' . $user['image']);
-        }    
+        }   
+        
+        //delete file 
+        $user = $this->userInfoModel->find($id);
+        if($user['file']) {
+            unlink('file/' . $user['file']);
+        }
 
         $this->userInfoModel->delete($id);
         session()->setFlashdata('notification', 'Data successfully deleted!');
@@ -135,6 +160,13 @@ class User extends BaseController
                     'is_image' => 'Please choose an image',
                     'mime_in' => 'Please choose an image'
                 ]
+                ],
+                'file' => [
+                    'rules' => 'max_size[file,5000]|ext_in[file,txt,docx,pptx,xlsx,pdf]',
+                    'errors' => [
+                        'max_size' => 'File size too big',
+                        'mime_in' => 'Please choose a file'
+                ]
             ]
         ])) {
             return redirect()->to('/user/edit/' . $this->request->getVar('id'))->withInput();
@@ -152,11 +184,21 @@ class User extends BaseController
             }    
         }
 
+        $docFile = $this->request->getFile('file');
+        //change file check
+        if($docFile->getError() == 4) {
+            $docName = $this->request->getVar('oldFile');
+        } else {
+            $docName = $docFile->getRandomName();
+            $docFile->move('file', $docName); 
+        }
+
         $this->userInfoModel->save([
             'id' => $id,
             'name' => $this->request->getVar('name'),
             'email' => $this->request->getVar('email'),
-            'image' => $imageName
+            'image' => $imageName,
+            'file' => $docName
         ]);
 
         session()->setFlashdata('notification', 'Data successfully updated!');

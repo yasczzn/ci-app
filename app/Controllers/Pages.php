@@ -20,14 +20,6 @@ class Pages extends BaseController
         return view('pages/about', $data);
     }
 
-    public function form()
-    {
-        $data = [
-            'title' => 'Form'
-        ];
-        echo view('pages/form', $data);
-    }
-
     public function contact() 
     { 
         $data = [

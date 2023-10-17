@@ -27,13 +27,20 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="formFile"  class="col-sm-2 col-form-label">User Image</label>
+            <label for="formFile" class="col-sm-2 col-form-label">User Image</label>
             <div class="col-sm-2">
                 <img src="/img/default.jpg" alt="" class="img-thumbnail img-preview">
             </div>
             <div class="col-sm-8">
-                <input type="file" id="image" name="image" onchange="previewImg()" class="form-control" 
-                placeholder="Enter image" value="<?= old('image'); ?>">
+                <input type="file" id="image" name="image" onchange="previewImg()" value="<?= old('image'); ?>" 
+                class="form-control" placeholder="Enter image">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="formFile" class="col-sm-2 col-form-label">User Document</label>
+            <div class="col-sm-10">
+                <input type="file" id="file" name="file" class="form-control" 
+                placeholder="Enter file" value="<?= old('file'); ?>">
             </div>
         </div>
         <button type="submit" class="btn btn-success btn-user ms-3">Submit</button>

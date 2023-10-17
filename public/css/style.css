@@ -9,3 +9,11 @@
 .card {
     vertical-align: middle;
 }
+
+.text {
+    display: block;
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

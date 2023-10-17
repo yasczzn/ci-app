@@ -13,8 +13,11 @@ use CodeIgniter\Router\RouteCollection;
 // $routes->get('(:segment)', [Coba::class, 'view']);
 $routes->get('/', 'Pages::index');
 
+$routes->get('/orang/printpdf', 'Orang::printpdf');
+
 $routes->get('/user/create', 'User::create');
 $routes->get('/user/edit/(:segment)', 'User::edit/$1');
 $routes->delete('/user/(:num)', 'User::delete/$1');
+$routes->get('/user/print', 'User::print');
 
 $routes->get('/user/(:any)', 'User::detail/$1');

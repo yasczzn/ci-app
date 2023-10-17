@@ -13,6 +13,7 @@
     <form action="/user/update/<?= $user['id']; ?>" method="post" enctype="multipart/form-data">
         <?= csrf_field(); ?>
         <input type="hidden" name="oldImage" value="<?= $user['image']; ?>">
+        <input type="hidden" name="oldFile" value="<?= $user['file']; ?>">
         <div class="form-group row">
             <label for="inputName" class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-10">
@@ -35,6 +36,13 @@
             <div class="col-sm-8">
                 <input type="file" id="image" name="image" onchange="previewImg()" class="form-control" 
                 placeholder="<?= $user['image']; ?>" value="<?= (old('image')) ? old('image') : $user['image']; ?>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputFile" class="col-sm-2 col-form-label">User Document</label>
+            <div class="col-sm-10">
+                <input type="file" id="file" name="file" class="form-control" 
+                placeholder="Enter file" value="<?= (old('file')) ? old('file') : $user['file']; ?>">
             </div>
         </div>
         <button type="submit" class="btn btn-success btn-user ms-3">Update Data</button>

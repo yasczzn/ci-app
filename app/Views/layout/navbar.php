@@ -13,9 +13,6 @@
           <a class="nav-link" href="/pages/about">About</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/pages/form">Form</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="/pages/contact">Contact</a>
         </li>
         <li class="nav-item">

@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class UserInfoModel extends Model
 {
     protected $table = 'user_data';
-    protected $allowedFields = ['id', 'name', 'email', 'image'];
+    protected $allowedFields = ['id', 'name', 'email', 'image', 'file'];
 
     public function search($keyword)
     {

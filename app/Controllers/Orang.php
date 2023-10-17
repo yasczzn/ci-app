@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\OrangModel;
 
+use \Dompdf\Dompdf;
+
 class Orang extends BaseController
 {
     protected $orangModel;
@@ -15,7 +17,6 @@ class Orang extends BaseController
 
     public function index()
     {
-
         $currentPage = $this->request->getVar('page_orang') ? $this->request->getVar('page_orang') :
         1;
 
@@ -35,6 +36,23 @@ class Orang extends BaseController
         ];
 
         return view('orang/index', $data);
+    }
+
+    public function printpdf($download=false)
+    {
+        $dompdf = new Dompdf();
+
+        $data = [
+            'orang' => $this->orangModel->findAll()
+        ];
+        $html = view('orang/printpdf', $data);
+        $dompdf->load_html($html);
+        $dompdf->set_paper('A4', 'landscape');
+        $dompdf->render();
+        if($download)
+            $dompdf->stream('data orang.pdf', array('Attachment' => 1));
+        else
+            $dompdf->stream('data orang.pdf', array('Attachment' => 0));
     }
 
 }
