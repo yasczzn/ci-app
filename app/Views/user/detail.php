@@ -19,7 +19,7 @@
                 <input type="hidden" name="_method" value="DELETE">
                 <button type="submit" class='btn btn-danger' onclick="return confirm('Are you sure?')">Delete</button>
             </form>
-            <!-- <a href="user/print" target="_blank" class="btn btn-success" name="user">Print Data</a> -->
+            <a href="/user/print/<?= $user['id']; ?>" target="_blank" class="btn btn-success" name="user">Print Data</a>
 
             <br><br>
             <a href="/user">Back to User data</a>

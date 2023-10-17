@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\UserInfoModel;
 
+use \Dompdf\Dompdf;
+
 class User extends BaseController
 {
     protected $userInfoModel;
@@ -204,6 +206,23 @@ class User extends BaseController
         session()->setFlashdata('notification', 'Data successfully updated!');
 
         return redirect()->to('/user');
+    }
+
+    public function print($id, $download=false)
+    {
+        $dompdf = new Dompdf();
+
+        $data = [
+            'user' => $this->userInfoModel->getUser($id)
+        ];
+        $html = view('user/print', $data);
+        $dompdf->load_html($html);
+        $dompdf->set_paper('A4', 'potrait');
+        $dompdf->render();
+        if($download)
+            $dompdf->stream('data user.pdf', array('Attachment' => 1));
+        else
+            $dompdf->stream('data user.pdf', array('Attachment' => 0));
     }
 
 }
