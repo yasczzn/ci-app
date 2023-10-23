@@ -15,10 +15,17 @@
         <input type="hidden" name="oldImage" value="<?= $user['image']; ?>">
         <input type="hidden" name="oldFile" value="<?= $user['file']; ?>">
         <div class="form-group row">
-            <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+            <label for="inputFirstName" class="col-sm-2 col-form-label">First Name</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="name" 
-                placeholder="Enter name" value="<?= (old('name')) ? old('name') : $user['name']; ?>" autofocus>
+                <input type="text" id="first_name" name="first_name" class="form-control" 
+                placeholder="Enter first name" value="<?= (old('first_name')) ? old('first_name') : $user['first_name']; ?>" autofocus required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputLastName" class="col-sm-2 col-form-label">Last Name</label>
+            <div class="col-sm-10">
+                <input type="text" id="last_name" name="last_name" class="form-control" 
+                placeholder="Enter last name" value="<?= (old('last_name')) ? old('last_name') : $user['last_name']; ?>" required>
             </div>
         </div>
         <div class="form-group row">
@@ -26,6 +33,20 @@
             <div class="col-sm-10">
                 <input type="email" id="email" name="email" class="form-control" 
                 placeholder="Enter email" value="<?= (old('email')) ? old('email') : $user['email']; ?>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputAge" class="col-sm-2 col-form-label">Age</label>
+            <div class="col-sm-10">
+                <input type="text" id="age" name="age" class="form-control" 
+                placeholder="Enter age" value="<?= (old('age')) ? old('age') : $user['age']; ?>" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputHiredSince" class="col-sm-2 col-form-label">Start Working from</label>
+            <div class="col-sm-10">
+                <input type="date" id="hired_since" name="hired_since" class="form-control" 
+                placeholder="Enter hired date" value="<?= (old('hired_since')) ? old('hired_since') : $user['hired_since']; ?>" required>
             </div>
         </div>
         <div class="form-group row">

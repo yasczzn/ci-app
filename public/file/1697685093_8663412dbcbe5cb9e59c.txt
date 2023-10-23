@@ -1,0 +1,69 @@
+2022-04-07 15:01:19.191 18601-18601/com.example.dqakses W/System.err: java.lang.IllegalArgumentException: @Body parameters cannot be used with form or multi-part encoding. (parameter #1)
+
+
+
+
+if(userService==null)
+         userService = new RetrofitClient(baseUrl).getService();
+   userService.login(edtNoWa.getText().toString(), edtPassword.getText().toString())
+            .enqueue(new Callback<User>() {
+
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    Log.d(TAG, "onResponse: "+edtNoWa.getText().toString()+edtPassword.getText().toString());
+                    Log.d(TAG, "onResponse: "+response.body());
+			  sharedPreferences = ctx.getSharedPreferences(MyPref, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    Gson gson = new Gson();
+                    if (response.isSuccessful()) {
+                        loading.dismiss();
+                        try {
+                            JSONObject jsonObject = new JSONObject(String.valueOf(response));
+                            gson.fromJson(jsonObject.toString(), LoginResponse.class);
+				    Toast.makeText(ctx, "Login Successful", Toast.LENGTH_SHORT).show();
+                            editor.putString(Sp_Status, "LoggedIn");
+                            editor.commit();
+                            String nama = jsonObject.getJSONObject("user").getString("nama");
+                            Intent intent = new Intent(getActivity(), HomeActivity.class).putExtra("nama", nama);
+                            startActivity(intent);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                    } else {
+                        Toast.makeText(ctx, "Login Gagal! Coba beberapa saat lagi", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+			  Toast.makeText(ctx, "Throwable "+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+}
+
+
+
+
+public class RetrofitClient {
+    public static final String baseUrl = "https://api.dqakses.id/Api/";
+    private static UserService userService;
+
+    public RetrofitClient(String baseUrl){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        userService = retrofit.create(UserService.class);
+    }
+
+    public UserService getUserService(){
+        return userService;
+    }
+
+
+}
+
+
+
+
+
+

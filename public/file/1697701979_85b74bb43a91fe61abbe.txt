@@ -1,0 +1,31 @@
+So cakratech network and infrastructure looks like:
+-Microservice arch, since it already mentioned that it is one of their excess. 
+
+-Enabling self-services
+
+-Multi-tenant, providing vendors to efficiently service everyone from small customers, whose scale simply doesn’t warrant dedicated infrastructure, to large enterprises that need access to the cloud’s virtually unlimited compute resources. One of the keystone features of Cloud known as elasticity — the ability to scale up and down based on current requirements demanded by the business — is a benefit of multi-tenancy. Of course, this can be accomplished in a single architecture as well, just not as efficiently and on a far smaller scale.
+
+-Making Role-Based Access Control (RBAC) a core component of your SaaS architecture can help improve data security. RBAC is a data access control method that restricts different users from accessing and changing data that does not directly relate to their role in an organization.
+
+RBAC lets users designate administrators, vendors, end-users, contractors, etc. Setting roles by job competency or authorization is also possible. 
+
+-Have regulatory compliance into the SaaS
+
+-Ensure minimal downtime
+
+-Make scalability a part of your SaaS architecture from the start 
+As your SaaS application grows in popularity, it should be able to scale. A growing business generates increasing transactions, queries, and metadata. 
+
+This requires that you design the SaaS architecture to autoscale easily and handle the increasing load without deteriorating performance. You can achieve this by ensuring the SaaS architecture supports seamless horizontal and vertical scaling.
+
+-Regularly address vendor-lock-in concerns
+
+
+
+Here are some actionable tips and best practices for SaaS architecture.
+
+9. Address vendor-lock-in concerns
+Vendor lock-in refers to the unfortunate situation where an organization finds moving from one vendor to another is extremely difficult. One way to ensure your SaaS application puts users’ vendor lock-in concerns to rest is to make it supports standard integration APIs, so users are free to connect the solution with other SaaS or on-premises applications. 
+
+That way, users can add capabilities to the SaaS application instead of switching to another vendor. This multi-service approach can enable users to innovate without continually changing vendors.     
+

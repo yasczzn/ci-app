@@ -7,11 +7,11 @@ use CodeIgniter\Model;
 class UserInfoModel extends Model
 {
     protected $table = 'user_data';
-    protected $allowedFields = ['id', 'name', 'email', 'image', 'file'];
+    protected $allowedFields = ['id', 'first_name', 'last_name', 'email', 'age', 'hired_since', 'image', 'file'];
 
     public function search($keyword)
     {
-        return $this->table('user_data')->like('name', $keyword)->orLike('email', $keyword);
+        return $this->table('user_data')->like('first_name', $keyword)->orLike('last_name', $keyword)->orLike('age', $keyword)->orLike('hired_since', $keyword)->orLike('email', $keyword);
     }
 
     public function getUser($id = false)
@@ -22,4 +22,5 @@ class UserInfoModel extends Model
 
         return $this->where(['id' => $id])->first();
     }
+    
 }

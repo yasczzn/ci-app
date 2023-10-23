@@ -2,27 +2,30 @@
 
 
 <?= $this->section('content'); ?>
-    <h2 class="mt-2">User Details</h2>
-    <br><br>
-    <div class="card" style="width: 18rem;">
-        <img src="/img/<?= $user['image']; ?>" class="card-img-top" alt="user image">
-        <div class="card-body">
-            <h5 class="card-title"><?= $user['name']; ?></h5>
-            <p class="card-text"><?= $user['email']; ?></p>
-            <br>
-            <p class="card-text"><b>User's document</b></p>
-            <span class="text"><?= $user['file']; ?></span>
-            <br>
-            <a href="/user/edit/<?= $user['id']; ?>" type="button" value='edit' class='btn btn-warning'>Edit</a>
-            <form action="/user/<?= $user['id']; ?>" method="post" class="d-inline">
-                <?= csrf_field(); ?>
-                <input type="hidden" name="_method" value="DELETE">
-                <button type="submit" class='btn btn-danger' onclick="return confirm('Are you sure?')">Delete</button>
-            </form>
-            <a href="/user/print/<?= $user['id']; ?>" target="_blank" class="btn btn-success" name="user">Print Data</a>
-
-            <br><br>
-            <a href="/user">Back to User data</a>
+    <h2 class="mt-2">Detail Karyawan</h2>
+    <div class="card mb-3" style="margin: 60px;">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="/img/<?= $user['image']; ?>" class="card-img" alt="user image" style="flex-shrink: 0; min-width: 100%; min-height: 100%; object-fit:cover; object-position:center">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h4 class="card-title" style="margin-bottom:0;"><?= $user['first_name']; ?> <?= $user['last_name']; ?></h4>
+                    <p class="card-text"><small><?= $user['email']; ?></small></p>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text" style="margin-bottom:0;"><b>Dokumen karyawan</b></p>
+                    <p class="card-text"><small><a href="<?= base_url("user/detail/$user[file]"); ?>" download><?= $user['file']; ?></a></small></p>
+                    <a href="/user/edit/<?= $user['id']; ?>" type="button" value='edit' class='btn btn-warning'>Ubah</a>
+                    <form action="/user/<?= $user['id']; ?>" method="post" class="d-inline">
+                        <?= csrf_field(); ?>
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class='btn btn-danger' onclick="return confirm('Are you sure?')">Hapus</button>
+                    </form>
+                    <a href="/user/print/<?= $user['id']; ?>" target="_blank" class="btn btn-success" name="print">Print Data</a>
+                    <br><br>
+                    <a href="/user">Kembali ke tabel</a>
+                </div>
+            </div>
         </div>
     </div>
 <?= $this->endSection(); ?>

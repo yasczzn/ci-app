@@ -17,10 +17,11 @@ class User extends BaseController
 
     public function index()
     {
-
+        //menyesuaikan nomor urut data
         $currentPage = $this->request->getVar('page_user_data') ? $this->request->getVar('page_user_data') :
         1;
 
+        //fungsi cari data
         $keyword = $this->request->getVar('keyword');
         if($keyword) {
             $userdata = $this->userInfoModel->search($keyword);
@@ -30,7 +31,7 @@ class User extends BaseController
 
         $data = [
             'title' => 'User Page',
-            'user' => $userdata->paginate(4, 'user_data'),
+            'user' => $userdata->paginate(5, 'user_data'),
             'pager' => $this->userInfoModel->pager,
             'currentPage' => $currentPage           
         ];
@@ -45,6 +46,7 @@ class User extends BaseController
             'user' => $this->userInfoModel->getUser($id)            
         ];
 
+        //jika data kosong
         if(empty($data['user'])) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('ID number ' . $id . ' not found.');
         }
@@ -65,21 +67,30 @@ class User extends BaseController
     {
         //validasi
         if(!$this->validate([
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'email' => 'required',
+            'age' => [
+                'rules' => 'required|numeric',
+                'errors' => [
+                    'required' => 'Mohon isi umur anda',
+                    'numeric' => 'Mohon isi umur anda'
+                ]
+            ],
+            'hired_since' => 'required',
             'image' => [
                 'rules' => 'max_size[image,5000]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png]',
                 'errors' => [
-                    'max_size' => 'Picture size too big',
-                    'is_image' => 'Please choose an image',
-                    'mime_in' => 'Please choose an image'
+                    'max_size' => 'Ukuran gambar terlalu besar',
+                    'is_image' => 'File bukan berupa gambar',
+                    'mime_in' => 'File bukan berupa gambar'
                 ]
             ],
             'file' => [
-                'rules' => 'max_size[file,5000]|ext_in[file,txt,docx,pptx,xlsx,pdf]',
+                'rules' => 'max_size[file,5000]|ext_in[file,txt,doc,docx,pptx,xlsx,pdf]',
                 'errors' => [
-                    'max_size' => 'File size too big',
-                    'mime_in' => 'Please choose a file'
+                    'max_size' => 'Ukuran file terlalu besar',
+                    'ext_in' => 'File tidak terbaca'
                 ]
             ]
         ])) {
@@ -98,7 +109,7 @@ class User extends BaseController
 
         //get file 
         $docFile = $this->request->getFile('file');
-        //if picture not uploaded
+        //if file not uploaded
         if($docFile->getError() == 4) {
             $docName = '';
         } else {
@@ -109,13 +120,16 @@ class User extends BaseController
 
         $this->userInfoModel->save([
             'id' => $this->request->getVar('id'),
-            'name' => $this->request->getVar('name'),
+            'first_name' => $this->request->getVar('first_name'),
+            'last_name' => $this->request->getVar('last_name'),
             'email' => $this->request->getVar('email'),
+            'age' => $this->request->getVar('age'),
+            'hired_since' => $this->request->getVar('hired_since'),
             'image' => $imageName,
             'file' => $docName
         ]);
 
-        session()->setFlashdata('notification', 'Data successfully added!');
+        session()->setFlashdata('notification', 'Data berhasil ditambah!');
 
         return redirect()->to('/user');
     }
@@ -134,8 +148,9 @@ class User extends BaseController
             unlink('file/' . $user['file']);
         }
 
+        //delete data
         $this->userInfoModel->delete($id);
-        session()->setFlashdata('notification', 'Data successfully deleted!');
+        session()->setFlashdata('notification', 'Data berhasil dihapus!');
         return redirect()->to('/user');
     }
 
@@ -153,21 +168,30 @@ class User extends BaseController
     {
         //validasi
         if(!$this->validate([
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'email' => 'required',
+            'age' => [
+                'rules' => 'required|numeric',
+                'errors' => [
+                    'required' => 'Mohon isi umur anda',
+                    'numeric' => 'Mohon isi umur anda'
+                ]
+            ],
+            'hired_since' => 'required',
             'image' => [
                 'rules' => 'max_size[image,5000]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png]',
                 'errors' => [
-                    'max_size' => 'Picture size too big',
-                    'is_image' => 'Please choose an image',
-                    'mime_in' => 'Please choose an image'
+                    'max_size' => 'Ukuran gambar terlalu besar',
+                    'is_image' => 'File bukan berupa gambar',
+                    'mime_in' => 'File bukan berupa gambar'
                 ]
-                ],
-                'file' => [
-                    'rules' => 'max_size[file,5000]|ext_in[file,txt,docx,pptx,xlsx,pdf]',
-                    'errors' => [
-                        'max_size' => 'File size too big',
-                        'mime_in' => 'Please choose a file'
+            ],
+            'file' => [
+                'rules' => 'max_size[file,5000]|ext_in[file,txt,doc,docx,pptx,xlsx,pdf]',
+                'errors' => [
+                    'max_size' => 'Ukuran file terlalu besar',
+                    'ext_in' => 'File tidak terbaca'
                 ]
             ]
         ])) {
@@ -197,13 +221,16 @@ class User extends BaseController
 
         $this->userInfoModel->save([
             'id' => $id,
-            'name' => $this->request->getVar('name'),
+            'first_name' => $this->request->getVar('first_name'),
+            'last_name' => $this->request->getVar('last_name'),
             'email' => $this->request->getVar('email'),
+            'age' => $this->request->getVar('age'),
+            'hired_since' => $this->request->getVar('hired_since'),
             'image' => $imageName,
             'file' => $docName
         ]);
 
-        session()->setFlashdata('notification', 'Data successfully updated!');
+        session()->setFlashdata('notification', 'Data berhasil diubah!');
 
         return redirect()->to('/user');
     }
@@ -216,8 +243,8 @@ class User extends BaseController
             'user' => $this->userInfoModel->getUser($id)
         ];
         $html = view('user/print', $data);
-        $dompdf->load_html($html);
-        $dompdf->set_paper('A4', 'potrait');
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'potrait');
         $dompdf->render();
         if($download)
             $dompdf->stream('data user.pdf', array('Attachment' => 1));

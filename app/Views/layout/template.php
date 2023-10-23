@@ -34,7 +34,10 @@
     <script>
       function previewImg() {
         const image = document.querySelector('#image');
+        const imgLabel = document.querySelector('.img-label');
         const imgPreview = document.querySelector('.img-preview');
+
+        imgLabel.textContent = image.files[0].name;
 
         const imageFile = new FileReader();
         imageFile.readAsDataURL(image.files[0]);
@@ -42,6 +45,14 @@
         imageFile.onload = function(e) {
           imgPreview.src = e.target.result;
         }
+      }
+
+      function previewFile() {
+        const doc = document.querySelector('#file');
+        const docLabel = document.querySelector('.file-label');
+        const docPreview = document.querySelector('.file-preview');
+
+        docLabel.textContent = file.files[0].name;
       }
     </script>
   </body>
