@@ -2,13 +2,40 @@
 
 namespace App\Controllers;
 
+use App\Models\UserInfoModel;
+
 class Pages extends BaseController
 {
+    protected $userInfoModel;
+
+    public function __construct()
+    {
+        $this->userInfoModel = new UserInfoModel();
+    }
+
     public function index()
     {
+        session();
+
+        $currentPage = $this->request->getVar('page_user_data') ? $this->request->getVar('page_user_data') : 1;
+
+        //fungsi cari data
+        $keyword = $this->request->getVar('keyword');
+        if($keyword) {
+            $userdata = $this->userInfoModel->search($keyword);
+        }  else {
+            $userdata = $this->userInfoModel;
+        }
+
         $data = [
-            'title' => 'Home'            
+            'title' => 'Home',    
+            'user' => $userdata->paginate(6, 'user_data'),
+            'pager' => $this->userInfoModel->pager,
+            'currentPage' => $currentPage     
         ];
+
+        session()->setFlashdata('notification');
+
         return view('pages/home', $data);
     }
 

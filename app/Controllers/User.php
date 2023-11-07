@@ -4,7 +4,12 @@ namespace App\Controllers;
 
 use App\Models\UserInfoModel;
 
-use \Dompdf\Dompdf;
+use Dompdf\Dompdf;
+
+
+use PhpOffice\PhpWord\IOFactory;
+
+use PhpOffice\PhpWord\PhpWord;
 
 class User extends BaseController
 {
@@ -18,8 +23,7 @@ class User extends BaseController
     public function index()
     {
         //menyesuaikan nomor urut data
-        $currentPage = $this->request->getVar('page_user_data') ? $this->request->getVar('page_user_data') :
-        1;
+        $currentPage = $this->request->getVar('page_user_data') ? $this->request->getVar('page_user_data') : 1;
 
         //fungsi cari data
         $keyword = $this->request->getVar('keyword');
@@ -87,7 +91,7 @@ class User extends BaseController
                 ]
             ],
             'file' => [
-                'rules' => 'max_size[file,5000]|ext_in[file,txt,doc,docx,pptx,xlsx,pdf]',
+                'rules' => 'max_size[file,5000]|ext_in[file,doc,docx,pdf]',
                 'errors' => [
                     'max_size' => 'Ukuran file terlalu besar',
                     'ext_in' => 'File tidak terbaca'
@@ -117,6 +121,36 @@ class User extends BaseController
             $docFile->move('file', $docName);
         }
 
+        $user = explode(".", $docName);
+        $data = $user[1];
+
+        if($data != "pdf") {
+
+            $wordDocPath = FCPATH . "file" . DIRECTORY_SEPARATOR . $docName;
+
+            // $phpWord = \PhpOffice\PhpWord\IOFactory::load($wordDocPath);
+            // $section = $phpWord->addSection();
+        
+            // $_filename = $user[0];
+            // $source = FCPATH . "file" . DIRECTORY_SEPARATOR . "{$_filename}.html";
+        
+            // $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'HTML');
+            // $objWriter->save($source);
+
+            $phpWord  = new \PhpOffice\PhpWord\PhpWord();
+            $document = $phpWord->loadTemplate($wordDocPath);
+            $document->setValue('fullName',  'John Doe');
+            $document->setValue('date', date("F j Y"));
+            $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+            $xmlWriter->save("php://output");
+            header("Content-Description: File Transfer");
+            header('Content-Disposition: attachment; filename="output.docx"');
+            header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+            header('Content-Transfer-Encoding: binary');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Expires: 0');
+        }    
+
 
         $this->userInfoModel->save([
             'id' => $this->request->getVar('id'),
@@ -144,7 +178,7 @@ class User extends BaseController
         
         //delete file 
         $user = $this->userInfoModel->find($id);
-        if($user['file']) {
+        if(!empty($user['file'])) {
             unlink('file/' . $user['file']);
         }
 
@@ -188,7 +222,7 @@ class User extends BaseController
                 ]
             ],
             'file' => [
-                'rules' => 'max_size[file,5000]|ext_in[file,txt,doc,docx,pptx,xlsx,pdf]',
+                'rules' => 'max_size[file,5000]|ext_in[file,pdf]',
                 'errors' => [
                     'max_size' => 'Ukuran file terlalu besar',
                     'ext_in' => 'File tidak terbaca'
@@ -206,7 +240,9 @@ class User extends BaseController
             $imageName = $imageFile->getRandomName();
             $imageFile->move('img', $imageName);
             if($imageName != 'default.jpg') {
-                unlink('img/' . $this->request->getVar('oldImage'));
+                if($this->request->getVar('oldImage') != 'default.jpg') {
+                    unlink('img/' . $this->request->getVar('oldImage'));
+                }
             }    
         }
 
@@ -217,6 +253,9 @@ class User extends BaseController
         } else {
             $docName = $docFile->getRandomName();
             $docFile->move('file', $docName); 
+            if($docName != $this->request->getVar('oldFile')) {
+                unlink('file/' . $this->request->getVar('oldFile'));
+            }
         }
 
         $this->userInfoModel->save([
@@ -238,6 +277,7 @@ class User extends BaseController
     public function print($id, $download=false)
     {
         $dompdf = new Dompdf();
+        $dompdf->set_option("enable_remote", true);
 
         $data = [
             'user' => $this->userInfoModel->getUser($id)
@@ -246,10 +286,11 @@ class User extends BaseController
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'potrait');
         $dompdf->render();
-        if($download)
+        if($download) {
             $dompdf->stream('data user.pdf', array('Attachment' => 1));
-        else
-            $dompdf->stream('data user.pdf', array('Attachment' => 0));
+        }
+
+        return $dompdf->stream('data user.pdf', array('Attachment' => 0));
     }
 
 }

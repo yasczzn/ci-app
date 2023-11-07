@@ -11,8 +11,8 @@
                     <input type="text" class="form-control" placeholder="Masukkan kata pencarian..." name="keyword">
                     <button class="btn btn-outline-secondary" type="submit" name="submit">Cari</button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
     <div class="table-wrapper">
         <?php if(session()->getFlashdata('notification')) : ?>
@@ -44,7 +44,7 @@
                         <td><?= $u['age']; ?></td>
                         <td><?= $u['hired_since']; ?></td>
                         <td><a href="<?= base_url('img/' . $u['image']); ?>" target="_blank"><img src="/img/<?= $u['image']; ?>" alt="user image" class="image"></a></td>
-                        <td><a href="<?= base_url('file/' . $u['file']); ?>" target="_blank"><span class="text"><?= $u['file']; ?></span></a></td>
+                        <td><a href="<?= base_url('file/' . $u['file']); ?>" target="_blank"><?= $u['file']; ?></a></td>
                         <td>
                             <a href="/user/details/<?= $u['id']; ?>" class='btn btn-success'>Detail</a>
                         </td>

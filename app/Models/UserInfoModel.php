@@ -22,5 +22,10 @@ class UserInfoModel extends Model
 
         return $this->where(['id' => $id])->first();
     }
+
+    public function getMain()
+    {
+        return $this->where('age <', 30);
+    }
     
 }

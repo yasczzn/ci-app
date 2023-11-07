@@ -55,17 +55,22 @@
                 <img src="/img/<?= $user['image']; ?>" alt="" class="img-thumbnail img-preview" value="<?= (old('image')) ? old('image') : $user['image']; ?>">
             </div>
             <div class="col-sm-8">
-                <input type="file" id="image" name="image" onchange="previewImg()" class="form-control" 
-                placeholder="<?= $user['image']; ?>" value="<?= (old('image')) ? old('image') : $user['image']; ?>">
+                <div class="custom-file">
+                    <input type="file" id="image" name="image" onchange="previewImg()" class="custom-file-input" 
+                     value="<?= (old('image')) ? old('image') : $user['image']; ?>">
+                    <label class="img-label custom-file-label" for="formFile"><?= $user['image']; ?></label>
+                </div>
             </div>
         </div>
         <div class="form-group row">
-            <label for="inputFile" class="col-sm-2 col-form-label">User Document</label>
+            <label for="formFile" class="col-sm-2 col-form-label">User Document</label>
             <div class="col-sm-10">
-                <input type="file" id="file" name="file" class="form-control" 
-                placeholder="Enter file" value="<?= (old('file')) ? old('file') : $user['file']; ?>">
+                <div class="custom-file">
+                    <input type="file" id="file" name="file" onchange="previewFile()" class="custom-file-input" value="<?= (old('file')) ? old('file') : $user['file']; ?>" required>
+                    <label class="file-label custom-file-label" for="formFile"><?= $user['file']; ?></label>
+                </div>
             </div>
-        </div>
+        </div>    
         <button type="submit" class="btn btn-success btn-user ms-3">Update Data</button>
         <a href="/user" type="button" class="btn btn-danger">Back</a>
         <hr>

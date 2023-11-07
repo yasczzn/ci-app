@@ -2,8 +2,6 @@
 
 namespace Config;
 
-// use App\Controllers\Coba;
-
 use CodeIgniter\Router\RouteCollection;
 
 /**
