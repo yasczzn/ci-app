@@ -126,32 +126,23 @@ class User extends BaseController
 
         if($data != "pdf") {
 
+            require_once "../vendor/PhpOffice/PhpWord/bootstrap.php";
+
+            $data = "html";
             $wordDocPath = FCPATH . "file" . DIRECTORY_SEPARATOR . $docName;
 
-            // $phpWord = \PhpOffice\PhpWord\IOFactory::load($wordDocPath);
-            // $section = $phpWord->addSection();
+            $phpWord = \PhpOffice\PhpWord\IOFactory::load($wordDocPath);
+            $section = $phpWord->addSection();
         
-            // $_filename = $user[0];
-            // $source = FCPATH . "file" . DIRECTORY_SEPARATOR . "{$_filename}.html";
+            $_filename = $user[0];
+            $source = FCPATH . "file" . DIRECTORY_SEPARATOR . "{$_filename}.html";
         
-            // $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'HTML');
-            // $objWriter->save($source);
+            $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'HTML');
+            $objWriter->save($source);
 
-            $phpWord  = new \PhpOffice\PhpWord\PhpWord();
-            $document = $phpWord->loadTemplate($wordDocPath);
-            $document->setValue('fullName',  'John Doe');
-            $document->setValue('date', date("F j Y"));
-            $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-            $xmlWriter->save("php://output");
-            header("Content-Description: File Transfer");
-            header('Content-Disposition: attachment; filename="output.docx"');
-            header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-            header('Content-Transfer-Encoding: binary');
-            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-            header('Expires: 0');
-        }    
-
-
+            // $docName = $_filename . "." . $data;
+        } 
+        
         $this->userInfoModel->save([
             'id' => $this->request->getVar('id'),
             'first_name' => $this->request->getVar('first_name'),
