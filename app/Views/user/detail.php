@@ -14,7 +14,7 @@
                     <p class="card-text"><small><?= $user['email']; ?></small></p>
                     <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
                     <p class="card-text" style="margin-bottom:0;"><b>Dokumen karyawan</b></p>
-                    <p class="card-text"><small><a href="<?= base_url('file/' . $user['file']); ?>" target="_blank"><span class="text"><?= $user['file']; ?></span></a></p>
+                    <p class="card-text"><small><?= $user['file']; ?> <a href="<?= base_url('file/' . $user['file']); ?>" target="_blank">download file</a></p>
                     <a href="/user/edit/<?= $user['id']; ?>" type="button" value='edit' class='btn btn-warning'>Ubah</a>
                     <form action="/user/<?= $user['id']; ?>" method="post" class="d-inline">
                         <?= csrf_field(); ?>

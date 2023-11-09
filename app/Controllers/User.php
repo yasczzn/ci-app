@@ -123,9 +123,8 @@ class User extends BaseController
 
         $user = explode(".", $docName);
         $data = $user[1];
-
+        //make .doc file to .html
         if($data != "pdf") {
-
             require_once "../vendor/PhpOffice/PhpWord/bootstrap.php";
 
             $data = "html";
@@ -139,8 +138,6 @@ class User extends BaseController
         
             $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'HTML');
             $objWriter->save($source);
-
-            // $docName = $_filename . "." . $data;
         } 
         
         $this->userInfoModel->save([
@@ -170,6 +167,17 @@ class User extends BaseController
         //delete file 
         $user = $this->userInfoModel->find($id);
         if(!empty($user['file'])) {
+            //check if the file is .doc
+            $data =  $user['file'];
+            $ext = end(explode(".", $data));
+            $filename = $data[0];
+
+            if($ext != "pdf") {
+                $ext = "html";
+                $data = $filename . "." . $ext;
+                unlink('file/' . $data);
+            }
+
             unlink('file/' . $user['file']);
         }
 
@@ -245,9 +253,39 @@ class User extends BaseController
             $docName = $docFile->getRandomName();
             $docFile->move('file', $docName); 
             if($docName != $this->request->getVar('oldFile')) {
+                //check if the file is .doc
+                $data =  $this->request->getVar('oldFile');
+                $ext = end(explode(".", $data));
+                $filename = $data[0];
+
+                if($ext != "pdf") {
+                    $ext = "html";
+                    $data = $filename . "." . $ext;
+                    unlink('file/' . $data);
+                }
+                
                 unlink('file/' . $this->request->getVar('oldFile'));
             }
         }
+
+        $user = explode(".", $docName);
+        $data = $user[1];
+        //make .doc file to .html
+        if($data != "pdf") {
+            require_once "../vendor/PhpOffice/PhpWord/bootstrap.php";
+
+            $data = "html";
+            $wordDocPath = FCPATH . "file" . DIRECTORY_SEPARATOR . $docName;
+
+            $phpWord = \PhpOffice\PhpWord\IOFactory::load($wordDocPath);
+            $section = $phpWord->addSection();
+        
+            $_filename = $user[0];
+            $source = FCPATH . "file" . DIRECTORY_SEPARATOR . "{$_filename}.html";
+        
+            $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'HTML');
+            $objWriter->save($source);
+        } 
 
         $this->userInfoModel->save([
             'id' => $id,
@@ -263,6 +301,26 @@ class User extends BaseController
         session()->setFlashdata('notification', 'Data berhasil diubah!');
 
         return redirect()->to('/user');
+    }
+
+    public function preview($file)
+    {
+        $user = explode(".", $file);
+        $filename = $user[0];
+        $ext = $user[1];
+
+        if($ext != "pdf") {
+            $ext = "html";
+            $source = FCPATH . "file" . DIRECTORY_SEPARATOR . "{$filename}.html";
+
+            // Open the HTML file in a web browser
+            header("Content-type: text/html");
+            readfile($source);
+
+            $file = $filename . "." . $ext;
+        } 
+
+        return redirect()->to(base_url('file/' . $file));
     }
 
     public function print($id, $download=false)

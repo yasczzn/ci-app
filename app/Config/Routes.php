@@ -17,4 +17,5 @@ $routes->get('/user/create', 'User::create');
 $routes->get('/user/edit/(:segment)', 'User::edit/$1');
 $routes->delete('/user/(:num)', 'User::delete/$1');
 $routes->get('/user/print/(:segment)', 'User::print/$1');
+$routes->get('/user/preview/(:segment)', 'User::preview/$1');
 $routes->get('/user/details/(:segment)', 'User::detail/$1');

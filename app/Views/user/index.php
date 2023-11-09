@@ -44,7 +44,7 @@
                         <td><?= $u['age']; ?></td>
                         <td><?= $u['hired_since']; ?></td>
                         <td><a href="<?= base_url('img/' . $u['image']); ?>" target="_blank"><img src="/img/<?= $u['image']; ?>" alt="user image" class="image"></a></td>
-                        <td><a href="<?= base_url('file/' . $u['file']); ?>" target="_blank"><?= $u['file']; ?></a></td>
+                        <td><a href="/user/preview/<?= $u['file']; ?>" target="_blank"><span class="text"><?= $u['file']; ?></span></a></td>
                         <td>
                             <a href="/user/details/<?= $u['id']; ?>" class='btn btn-success'>Detail</a>
                         </td>
