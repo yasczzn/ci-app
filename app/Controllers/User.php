@@ -232,17 +232,16 @@ class User extends BaseController
         }
 
         $imageFile = $this->request->getFile('image');
+        $oldImage = $this->request->getVar('oldImage');
         //change image check
         if($imageFile->getError() == 4) {
-            $imageName = $this->request->getVar('oldImage');
+            $imageName = $oldImage;
         } else {
             $imageName = $imageFile->getRandomName();
             $imageFile->move('img', $imageName);
-            if($imageName != 'default.jpg') {
-                if($this->request->getVar('oldImage') != 'default.jpg') {
-                    unlink('img/' . $this->request->getVar('oldImage'));
-                }
-            }    
+            if($oldImage != 'default.jpg') {
+                unlink('img/' . $oldImage);
+            }   
         }
 
         $docFile = $this->request->getFile('file');

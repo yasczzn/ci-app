@@ -66,13 +66,14 @@
             <label for="formFile" class="col-sm-2 col-form-label">User Document</label>
             <div class="col-sm-10">
                 <div class="custom-file">
-                    <input type="file" id="file" name="file" onchange="previewFile()" class="custom-file-input" value="<?= (old('file')) ? old('file') : $user['file']; ?>" required>
+                    <input type="file" id="file" name="file" onchange="previewFile()" class="custom-file-input" 
+                     value="<?= (old('file')) ? old('file') : $user['file']; ?>">
                     <label class="file-label custom-file-label" for="formFile"><?= $user['file']; ?></label>
                 </div>
             </div>
         </div>    
         <button type="submit" class="btn btn-success btn-user ms-3">Update Data</button>
-        <a href="/user" type="button" class="btn btn-danger">Back</a>
+        <a href="/user" type="button" class="btn btn-danger">Kembali</a>
         <hr>
     </form>
 <?= $this->endSection(); ?>
