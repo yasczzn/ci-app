@@ -9,7 +9,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 // $routes->get('coba', [Coba::class, 'index']);
 // $routes->get('(:segment)', [Coba::class, 'view']);
-$routes->get('/', 'Pages::index');
+$routes->get('/pages', 'Pages::index');
 
 $routes->get('/orang/printpdf', 'Orang::printpdf');
 
